@@ -1,0 +1,44 @@
+#!/bin/sh
+#notes - take notes the unix way
+
+usage() {
+	printf '%s\n' \
+		"Usage: FIXME"
+}
+
+# config
+: "${EDITOR:=vim}"
+: "${MYNOTES_DIR:="$HOME/notes"}"
+: "${MYNOTES_SUFFIX:=".md"}"
+: "${TODAY:="$(date --iso)"}"
+
+if [ ! -d "$MYNOTES_DIR" ]; then
+	mkdir -p "$MYNOTES_DIR"
+	cd "$MYNOTES_DIR" || exit 1
+	#FIXME: not proper git support yet... git init
+fi
+
+case "$1" in
+	"" | e | edit | today)
+		note="$MYNOTES_DIR/${TODAY}${MYNOTES_SUFFIX}"
+		$EDITOR "$note"
+		;;
+	g | grep)
+		shift ; shift
+		grep --color=auto -r "$@" "$MYNOTES_DIR"
+		;;
+	s | show)
+		case "$2" in
+			"" | a)
+				for f in "$MYNOTES_DIR"/*; do
+					printf '\n%s\n' "==> $f"
+					cat "$f"
+				done
+				;;
+		esac
+		;;
+	*)
+		usage
+		exit 1
+		;;
+esac
