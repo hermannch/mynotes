@@ -24,7 +24,8 @@ case "$1" in
 		$EDITOR "$note"
 		;;
 	g | grep)
-		shift ; shift
+		shift
+		shift
 		grep --color=auto -r "$@" "$MYNOTES_DIR"
 		;;
 	s | show)
