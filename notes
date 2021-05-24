@@ -3,7 +3,18 @@
 
 usage() {
 	printf '%s\n' \
-		"Usage: FIXME"
+		"Usage" \
+		"  notes [options]" \
+		"  notes [command] [options]" \
+		"" \
+		"Options" \
+		"  --help                show this help" \
+		"" \
+		"Commands" \
+		"  [edit]                open today's note file in \$EDITOR (currently: $EDITOR)" \
+		"  grep                  grep on all notes" \
+		"  show                  print all notes to stdout"
+
 }
 
 # config
@@ -19,6 +30,10 @@ if [ ! -d "$MYNOTES_DIR" ]; then
 fi
 
 case "$1" in
+	-h | --help)
+		usage
+		exit 0
+		;;
 	"" | e | edit | today)
 		note="$MYNOTES_DIR/${TODAY}${MYNOTES_SUFFIX}"
 		$EDITOR "$note"
@@ -39,6 +54,7 @@ case "$1" in
 		esac
 		;;
 	*)
+		printf 'ERROR: %s\n\n' "Unknown argument: $1">&2
 		usage
 		exit 1
 		;;
