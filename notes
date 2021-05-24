@@ -40,7 +40,6 @@ case "$1" in
 		;;
 	g | grep)
 		shift
-		shift
 		grep --color=auto -r "$@" "$MYNOTES_DIR"
 		;;
 	s | show)
